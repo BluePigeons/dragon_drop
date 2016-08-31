@@ -1,0 +1,17 @@
+
+
+#polyanno-top-bar {
+	background-color: grey;
+	border-radius: 5px;
+}
+
+.polyannoMinEditor {
+	display: inline-block;
+}
+
+
+.annoPopup {
+  	border: 1px solid grey;
+	border-radius: 5px;
+}
+
