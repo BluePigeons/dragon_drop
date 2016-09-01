@@ -1,11 +1,13 @@
 
 
-#polyanno-top-bar {
+#dragondrop-min-bar {
 	background-color: grey;
 	border-radius: 5px;
+	width: 100%;
+	height: 100%;
 }
 
-.polyannoMinEditor {
+.dragondrop-min-pop {
 	display: inline-block;
 }
 
@@ -15,3 +17,11 @@
 	border-radius: 5px;
 }
 
+.dragondrop-handlebar {
+	background-color: buttonface;
+	/*cursor: pointer;*/
+}
+
+.dragondrop-handlebar-obj {
+	display: inline-block;
+}

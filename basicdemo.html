@@ -15,6 +15,8 @@
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
+	<link rel="stylesheet" href="dragondrop.css">
+
 <!-- Javascript libraries -->
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
@@ -52,12 +54,12 @@
 
 </div>
 
-<script src="DragAndDropPops.js"></script>
+<script src="dragondrop.js"></script>
 
 <script>
 
-	////no min bar
-	///add popup without min
+	addPopup("test", "<p>this</p>", "test-page-body", false);
+	initialise_dragondrop("test-page-body", {"minimise": false});
 
 </script>
 

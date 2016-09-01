@@ -9,10 +9,10 @@ var isUseless = function(something) {
 ///needs to be set
 var drag_drop_parent_id;
 
-var polyannoMinBarHTML1 = `<button type="button" class="btn polyannoMinEditor"> 
+var dragondrop_min_bar_HTML1 = `<button type="button" class="btn dragondrop-min-pop"> 
                           <span> _ </span>
-                          <span class="polyannoMinTitle">`
-var polyannoMinBarHTML2 =  `</span> 
+                          <span class="dragondrop-min-pop-title">`
+var dragondrop_min_bar_HTML2 =  `</span> 
                           </button>`;
 
 var dragondrop_popup_HTML = `
@@ -22,37 +22,34 @@ var dragondrop_popup_HTML = `
 
       <div class="row dragondrop-handlebar ui-draggable-handle">
 
-        <button class="btn col-md-1 ">
-          <span class="closePopupBtn glyphicon glyphicon-remove"></span>
+        <button class="btn dragondrop-handlebar-obj ">
+          <span class="dragondrop-close-pop-btn glyphicon glyphicon-remove"></span>
         </button>
 
-        <button class="btn col-md-1 dragondrop-min">
+        <button class="btn dragondrop-handlebar-obj dragondrop-min">
           <span> _ </span>
         </button>
 
-        <div class="col-md-7">
+        <div class="dragondrop-handlebar-obj ">
           <div class="dragondrop-title"></div>
         </div>
 
       </div>
 
 
-      <div class="dragondrop-content-box row ui-content">
+      <!--insert popup content here (should be Bootstrap rows)-->
 
-      <!--insert popup content here -->
-
-      </div>
 
     </div>
   </div>
 
 `;
 
-var addPopup = function(popupClass, popupClone, parentID, minOption) {
+var addPopup = function(popupClass, contentHTML, parentID, minOption, handlebarHTML) {
 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
-  popupBoxDiv.classList.add("annoPopup");
+  popupBoxDiv.classList.add("annoPopup"); /////"dragonpop"
   popupBoxDiv.classList.add("col-md-4");
 
   popupBoxDiv.id = "-" + Math.random().toString().substring(2);
@@ -62,9 +59,14 @@ var addPopup = function(popupClass, popupClone, parentID, minOption) {
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  document.getElementById(popupBoxDiv.id).children[0].children[0].children[1].innerHTML = popupClone;
+  document.getElementById(popupBoxDiv.id).children[0].children[0].children[0].innerHTML += handlebarHTML;
+  document.getElementById(popupBoxDiv.id).children[0].children[0].innerHTML += contentHTML;
 
   drag_drop_parent_id = parentID;
+
+  if (isUseless(minOption)) {
+    $(popupIDstring).find(".dragondrop-min").remove();
+  };
 
   $(popupIDstring).draggable();
   $(popupIDstring).draggable({
@@ -84,11 +86,11 @@ var addPopup = function(popupClass, popupClone, parentID, minOption) {
   return popupIDstring;
 };
 
-var removeEditorChild = function(thisEditor) {
+var dragondrop_remove_pop = function(thispop) {
   var theParent = document.getElementById(drag_drop_parent_id);
-  var toRemove = document.getElementById(thisEditor);
+  var toRemove = document.getElementById(thispop);
   theParent.removeChild(toRemove);
-  if (  isUseless(toRemove) != true ) {  return thisEditor;  };
+  if (  isUseless(toRemove) != true ) {  return thispop;  };
 };
 
 var updateGridCols = function(newcol, popupDOM) {
@@ -103,7 +105,6 @@ var updateGridCols = function(newcol, popupDOM) {
   var theClassName = theClasses.substring(theStartIndex, theEndIndex);
   if ((theStartIndex != -1) && (theClassName != newName)) {
     popupDOM.removeClass(theClassName).addClass(newName+" ");
-    $("#testingOldCol").html(newcol);
     return newcol;
   }
   else {  return 0  };
@@ -214,12 +215,12 @@ var isReverting = false;
 var updateIsReverting = function(theNearestSiblings, popupDOM) {
   if ((theNearestSiblings[0] != -1) && (theNearestSiblings[0] != popupDOM.prev())) {
     isReverting = ["insertAfter", theNearestSiblings[0]];
-    popupDOM.addClass("polyanno-was-reverted");
+    popupDOM.addClass("dragondrop-was-reverted");
     return true;
   }
   else if ((theNearestSiblings[1] != -1) && (theNearestSiblings[1] != popupDOM.next())) {
     isReverting = ["insertBefore", theNearestSiblings[1] ];
-    popupDOM.addClass("polyanno-was-reverted");
+    popupDOM.addClass("dragondrop-was-reverted");
     return true;
   }
   else {
@@ -250,63 +251,99 @@ var adjustDragBootstrapGrid = function(popupDOM) {
   
 };
 
-var polyannoMinimiseEditor = function (thisEditorWithoutHash) {
-  var polyannoMinBarHTML = polyannoMinBarHTML1 + thisEditorWithoutHash + polyannoMinBarHTML2;
-  $(".polyanno-min-bar").append(polyannoMinBarHTML);
-  $(".polyanno-min-bar").find("span:contains("+thisEditorWithoutHash+")").addClass(thisEditorWithoutHash);
+var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
+  var dragondrop_min_bar_HTML = dragondrop_min_bar_HTML1 + thisEditorWithoutHash + dragondrop_min_bar_HTML2;
+  $(".dragondrop-min-bar").append(dragondrop_min_bar_HTML);
+  $(".dragondrop-min-bar").find("span:contains("+thisEditorWithoutHash+")").addClass(thisEditorWithoutHash);
   $("#"+thisEditorWithoutHash).css("display", "none");
 };
 
-var polyannoReopenMin = function (thisEditorWithoutHash) {
+var dragondrop_reopen_min = function (thisEditorWithoutHash) {
   $("#"+thisEditorWithoutHash).css("display", "block");
-  $(".polyanno-min-bar").find("."+thisEditorWithoutHash).closest(".polyannoMinEditor").remove(); ///
+  $(".dragondrop-min-bar").find("."+thisEditorWithoutHash).closest(".dragondrop-min-pop").remove(); ///
 };
 
-var initialiseDragAndDrop = function(parent_id) {
+var initialise_dragondrop = function(parent_id, the_options) {
 
-  $('#'+parent_id).on("click", ".closePopupBtn", function(){
-    var thisEditor = $(event.target).closest(".annoPopup").attr("id");
-    closeEditorMenu(thisEditor);
-  });
+  /* the the_options must take format:
+  {
+    "minimise" : Boolean,
+    "beforeclose": "funcname",
+    "afterclose": "funcname",
+    "beforemin": "funcname",
+    "aftermin": "funcname",
+    "beforereopen": "funcname",
+    "afterreopen": "funcname",
+    "initialise_min_bar": "min bar parent id"
+  }
+  */
 
-  $( "#"+parent_id).on( "click", ".polyanno-popup-min", function(event) {
-    var thisEditor = $(event.target).closest(".annoPopup").attr("id");
-    polyannoMinimiseEditor(thisEditor);
+  $('#'+parent_id).on("click", ".dragondrop-close-pop-btn", function(){
+    var thisPopID = $(event.target).closest(".annoPopup").attr("id");
+    if (!isUseless(the_options.beforeclose)) {  the_options.beforeclose(thisPopID) };
+    dragondrop_remove_pop(thisPopID);
+    if (!isUseless(the_options.afterclose)) {  the_options.afterclose(thisPopID) };   
+
   });
 
   $( "#"+parent_id ).on( "resizestop", ".annoPopup", function( event, ui ) {
-    adjustResizeBootstrapGrid($("#polyanno-page-body"), $(event.target), ui);
+    adjustResizeBootstrapGrid($("#"+parent_id), $(event.target), ui);
   } );
 
   $( "#"+parent_id ).on( "dragstop", ".annoPopup", function( event, ui ) {
-    if ($(event.target).hasClass("polyanno-was-reverted") && (isReverting[0] == "insertAfter") ) {
+    if ($(event.target).hasClass("dragondrop-was-reverted") && (isReverting[0] == "insertAfter") ) {
       var theRest = isReverting[1].nextAll();
       if( !isUseless(theRest) ) { 
         theRest.insertAfter($(event.target));
       };
       $(event.target).insertAfter(isReverting[1]);
-      $(event.target).removeClass("polyanno-was-reverted");
+      $(event.target).removeClass("dragondrop-was-reverted");
       isReverting = false;
     }
-    else if ($(event.target).hasClass("polyanno-was-reverted") && (isReverting[0] == "insertBefore") ) {
+    else if ($(event.target).hasClass("dragondrop-was-reverted") && (isReverting[0] == "insertBefore") ) {
       var theRest = isReverting[1].prevAll();
       if( !isUseless(theRest) ) { 
         theRest.insertBefore($(event.target));
       };
       $(event.target).insertBefore(isReverting[1]);
-      $(event.target).removeClass("polyanno-was-reverted");
+      $(event.target).removeClass("dragondrop-was-reverted");
       isReverting = false;
     };
   } );
 
+  if (!isUseless(the_options.minimise)) {
+
+    $( "#"+parent_id).on( "click", ".dragondrop-min", function(event) {
+      var thisPopID = $(event.target).closest(".annoPopup").attr("id");
+      if (!isUseless(the_options.beforemin)) {  the_options.beforemin(thisPopID) };
+      dragondrop_minimise_pop(thisPopID);
+      if (!isUseless(the_options.aftermin)) {  the_options.aftermin(thisPopID) };
+    });
+
+    ///default to true
+    if (!isUseless(the_options.initialise_min_bar)) {
+
+      document.getElementById(the_options.initialise_min_bar).innerHTML = `<div class="dragondrop-min-bar"> </div>` ;
+
+      $(".dragondrop-min-bar").on("click", ".dragondrop-min-pop", function(event) {
+        var thisPopID = $(this).find(".dragondrop-min-pop-title").html();
+        if (!isUseless(the_options.beforereopen)) {  the_options.beforereopen(thisPopID) };
+        dragondrop_reopen_min(thisPopID);
+        if (!isUseless(the_options.afterreopen)) {  the_options.afterreopen(thisPopID) };
+      });
+
+    }
+    else {
+      $(".dragondrop-min-bar").on("click", ".dragondrop-min-pop", function(event) {
+        var thisPopID = $(this).find(".dragondrop-min-pop-title").html();
+        if (!isUseless(the_options.beforereopen)) {  the_options.beforereopen(thisPopID) };
+        dragondrop_reopen_min(thisPopID);
+        if (!isUseless(the_options.afterreopen)) {  the_options.afterreopen(thisPopID) };
+      });
+    };
+    
+  };
+
 };
-
-$("#polyanno-top-bar").on("click", ".polyannoMinEditor", function(event) {
-  var thisEditor = $(this).find(".polyannoMinTitle").html();
-  polyannoReopenMin(thisEditor);
-});
-
-///set option for minimise
-///preload min bar?
 
 
