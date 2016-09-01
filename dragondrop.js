@@ -15,7 +15,40 @@ var polyannoMinBarHTML1 = `<button type="button" class="btn polyannoMinEditor">
 var polyannoMinBarHTML2 =  `</span> 
                           </button>`;
 
-var addPopup = function(popupClass, popupClone, parentID) {
+var dragondrop_popup_HTML = `
+
+  <div  class="row dragondropbox">
+    <div class="col-md-12">
+
+      <div class="row dragondrop-handlebar ui-draggable-handle">
+
+        <button class="btn col-md-1 ">
+          <span class="closePopupBtn glyphicon glyphicon-remove"></span>
+        </button>
+
+        <button class="btn col-md-1 dragondrop-min">
+          <span> _ </span>
+        </button>
+
+        <div class="col-md-7">
+          <div class="dragondrop-title"></div>
+        </div>
+
+      </div>
+
+
+      <div class="dragondrop-content-box row ui-content">
+
+      <!--insert popup content here -->
+
+      </div>
+
+    </div>
+  </div>
+
+`;
+
+var addPopup = function(popupClass, popupClone, parentID, minOption) {
 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
@@ -24,12 +57,12 @@ var addPopup = function(popupClass, popupClone, parentID) {
 
   popupBoxDiv.id = "-" + Math.random().toString().substring(2);
   var popupIDstring = "#" + popupBoxDiv.id;
-  //popupBoxDiv.appendChild(popupClone);
 
   var pageBody = document.getElementById(parentID);
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
-  document.getElementById(popupBoxDiv.id).innerHTML = popupClone;
+  document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
+  document.getElementById(popupBoxDiv.id).children[0].children[0].children[1].innerHTML = popupClone;
 
   drag_drop_parent_id = parentID;
 
