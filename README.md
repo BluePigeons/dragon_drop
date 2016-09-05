@@ -69,4 +69,12 @@ The popups are resizeable by dragging the edges - currently this is set at the r
 
 When dragged around the page, the popups are designed to snap into place adjacent to other Dragon Drop popups and the element of the popup is moved to its new position between or besides its neighbours too, not just moved visually around the page. This is done to ensure a consistent responsive design so that the adjusted relative positions can be maintained across screen sizes. Basic JQuery UI dragging loses its relative positions when screen sizes are adjusted.
 
+##Examples
+
+To see an example of a website with a single popup added and no minimising see [this demo](https://jsfiddle.net/BluePigeons/0z0txtyz/).
+
+To see an example of popups with minimising enabled see [this demo](https://jsfiddle.net/BluePigeons/hm82evc2/).
+
+To see an example of dynamically generated (in response to a button press) popups with minimising enabled see [this demo](https://jsfiddle.net/BluePigeons/c1mjbcbr/).
+
 
