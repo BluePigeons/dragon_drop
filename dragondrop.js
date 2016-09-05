@@ -45,7 +45,7 @@ var dragondrop_popup_HTML = `
 
 `;
 
-var addPopup = function(popupClass, contentHTML, parentID, minOption, handlebarHTML) {
+var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML) {
 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
