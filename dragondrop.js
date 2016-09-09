@@ -59,8 +59,8 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  document.getElementById(popupBoxDiv.id).children[0].children[0].children[0].innerHTML += handlebarHTML;
-  document.getElementById(popupBoxDiv.id).children[0].children[0].innerHTML += contentHTML;
+  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[0].children[0].innerHTML += handlebarHTML };
+  if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[0].innerHTML += contentHTML };
 
   drag_drop_parent_id = parentID;
 
@@ -264,19 +264,6 @@ var dragondrop_reopen_min = function (thisEditorWithoutHash) {
 };
 
 var initialise_dragondrop = function(parent_id, the_options) {
-
-  /* the the_options must take format:
-  {
-    "minimise" : Boolean,
-    "beforeclose": "funcname",
-    "afterclose": "funcname",
-    "beforemin": "funcname",
-    "aftermin": "funcname",
-    "beforereopen": "funcname",
-    "afterreopen": "funcname",
-    "initialise_min_bar": "min bar parent id"
-  }
-  */
 
   $('#'+parent_id).on("click", ".dragondrop-close-pop-btn", function(){
     var thisPopID = $(event.target).closest(".annoPopup").attr("id");
