@@ -87,8 +87,10 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
 };
 
 var dragondrop_remove_pop = function(thispop) {
-  var theParent = document.getElementById(drag_drop_parent_id);
+
+//  var theParent = document.getElementById(drag_drop_parent_id);
   var toRemove = document.getElementById(thispop);
+  var theParent = document.getElementById(toRemove.parentElement.id);
   theParent.removeChild(toRemove);
   if (  isUseless(toRemove) != true ) {  return thispop;  };
 };
@@ -253,7 +255,11 @@ var adjustDragBootstrapGrid = function(popupDOM) {
 
 var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
   var dragondrop_min_bar_HTML = dragondrop_min_bar_HTML1 + thisEditorWithoutHash + dragondrop_min_bar_HTML2;
+
+  alert("the min bar is "+dragondrop_min_bar_HTML);
+
   $(".dragondrop-min-bar").append(dragondrop_min_bar_HTML);
+
   $(".dragondrop-min-bar").find("span:contains("+thisEditorWithoutHash+")").addClass(thisEditorWithoutHash);
   $("#"+thisEditorWithoutHash).css("display", "none");
 };
