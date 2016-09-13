@@ -65,7 +65,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   drag_drop_parent_id = parentID;
 
   if (isUseless(minOption)) {
-    $(popupIDstring).find(".dragondrop-min").remove();
+    $(popupIDstring).find(".dragondrop-min").detach();
   };
 
   $(popupIDstring).draggable();
@@ -224,7 +224,7 @@ var updateIsReverting = function(theNearestSiblings, popupDOM) {
     return true;
   }
   else {
-    return false;
+    return true;
   };
 };
 
