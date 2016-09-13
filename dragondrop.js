@@ -256,8 +256,6 @@ var adjustDragBootstrapGrid = function(popupDOM) {
 var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
   var dragondrop_min_bar_HTML = dragondrop_min_bar_HTML1 + thisEditorWithoutHash + dragondrop_min_bar_HTML2;
 
-  alert("the min bar is "+dragondrop_min_bar_HTML);
-
   $(".dragondrop-min-bar").append(dragondrop_min_bar_HTML);
 
   $(".dragondrop-min-bar").find("span:contains("+thisEditorWithoutHash+")").addClass(thisEditorWithoutHash);
