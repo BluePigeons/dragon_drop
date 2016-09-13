@@ -307,9 +307,12 @@ var initialise_dragondrop = function(parent_id, the_options) {
   if (!isUseless(the_options.minimise)) {
 
     $( "#"+parent_id).on( "click", ".dragondrop-min", function(event) {
+      event.stopPropagation();
       var thisPopID = $(event.target).closest(".annoPopup").attr("id");
       if (!isUseless(the_options.beforemin)) {  the_options.beforemin(thisPopID) };
+
       dragondrop_minimise_pop(thisPopID);
+
       if (!isUseless(the_options.aftermin)) {  the_options.aftermin(thisPopID) };
     });
 
