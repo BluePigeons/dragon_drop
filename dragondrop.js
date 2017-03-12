@@ -80,7 +80,10 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
     snapMode: "outer"  
   });
 
-  $(popupIDstring).resizable();
+  $(popupIDstring).resizable({
+    handles: "e, w",
+    ghost: true
+  });
   $(popupIDstring).resizable( "enable" );
 
   return popupIDstring;
