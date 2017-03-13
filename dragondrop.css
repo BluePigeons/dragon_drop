@@ -25,3 +25,9 @@
 .dragondrop-handlebar-obj {
 	display: inline-block;
 }
+
+.ui-resizable-handle {
+	width: 10px;
+	height: 100%;
+	background-color: buttonface;
+}

@@ -18,6 +18,7 @@ var dragondrop_min_bar_HTML2 =  `</span>
 var dragondrop_popup_HTML = `
 
   <div  class="row dragondropbox">
+    <div class="dragondrop-resize-e ui-resizable-e ui-resizable-handle"></div>
     <div class="col-md-12">
 
       <div class="row dragondrop-handlebar ui-draggable-handle">
@@ -41,6 +42,7 @@ var dragondrop_popup_HTML = `
 
 
     </div>
+    <div class="dragondrop-resize-w ui-resizable-w ui-resizable-handle"></div>
   </div>
 
 `;
@@ -81,7 +83,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   });
 
   $(popupIDstring).resizable({
-    handles: "e, w",
+    handles: {e: ".dragondrop-resize-e", w: ".dragondrop-resize-w" },
     ghost: true
   });
   $(popupIDstring).resizable( "enable" );
