@@ -61,8 +61,8 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[0].children[0].innerHTML += handlebarHTML };
-  if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[0].innerHTML += contentHTML };
+  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[1].children[0].innerHTML += handlebarHTML };
+  if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[1].innerHTML += contentHTML };
 
   drag_drop_parent_id = parentID;
 
