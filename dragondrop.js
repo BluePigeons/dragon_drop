@@ -16,14 +16,13 @@ var dragondrop_min_bar_HTML2 =  `</span>
                           </button>`;
 
 var dragondrop_popup_HTML = `
-
+  <div class="dragondrop-resize-e ui-resizable-e ui-resizable-handle"></div>
   <div  class="row dragondropbox">
-    <div class="dragondrop-resize-e ui-resizable-e ui-resizable-handle"></div>
     <div class="col-md-12">
 
       <div class="row dragondrop-handlebar ui-draggable-handle">
 
-        <button class="btn dragondrop-handlebar-obj ">
+        <button class="btn dragondrop-handlebar-obj dragondrop-close">
           <span class="dragondrop-close-pop-btn glyphicon glyphicon-remove"></span>
         </button>
 
@@ -42,12 +41,12 @@ var dragondrop_popup_HTML = `
 
 
     </div>
-    <div class="dragondrop-resize-w ui-resizable-w ui-resizable-handle"></div>
   </div>
+  <div class="dragondrop-resize-w ui-resizable-w ui-resizable-handle"></div>
 
 `;
 
-var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML) {
+var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML, removeCloseOption) {
 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
@@ -61,13 +60,17 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[1].children[0].innerHTML += handlebarHTML };
-  if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[0].children[1].innerHTML += contentHTML };
+  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML }; ///reorder so the close and min are before
+  if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].innerHTML += contentHTML };
 
   drag_drop_parent_id = parentID;
 
   if (isUseless(minOption)) {
     $(popupIDstring).find(".dragondrop-min").detach();
+  };
+
+  if (removeCloseOption) {
+    $(popupIDstring).find(".dragondrop-close").detach();
   };
 
   $(popupIDstring).draggable();
@@ -83,7 +86,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   });
 
   $(popupIDstring).resizable({
-    handles: {e: ".dragondrop-resize-e", w: ".dragondrop-resize-w" },
+    handles: {"e": ".dragondrop-resize-e", "w": ".dragondrop-resize-w" },
     ghost: true
   });
   $(popupIDstring).resizable( "enable" );
