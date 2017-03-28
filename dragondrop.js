@@ -263,16 +263,27 @@ var adjustDragBootstrapGrid = function(popupDOM) {
 
 var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
   var dragondrop_min_bar_HTML = dragondrop_min_bar_HTML1 + thisEditorWithoutHash + dragondrop_min_bar_HTML2;
-
   $(".dragondrop-min-bar").append(dragondrop_min_bar_HTML);
+  var new_min = $(".dragondrop-min-bar").find("span:contains("+thisEditorWithoutHash+")");
 
-  $(".dragondrop-min-bar").find("span:contains("+thisEditorWithoutHash+")").addClass(thisEditorWithoutHash);
-  $("#"+thisEditorWithoutHash).css("display", "none");
+  new_min.addClass(thisEditorWithoutHash);
+  $("#"+thisEditorWithoutHash)
+  .transfer( {
+    to: new_min,
+    duration: 200
+  } )
+  .hide();
 };
 
 var dragondrop_reopen_min = function (thisEditorWithoutHash) {
-  $("#"+thisEditorWithoutHash).css("display", "block");
-  $(".dragondrop-min-bar").find("."+thisEditorWithoutHash).closest(".dragondrop-min-pop").remove(); ///
+  var old_min = $(".dragondrop-min-bar").find("."+thisEditorWithoutHash).closest(".dragondrop-min-pop");
+  $("#"+thisEditorWithoutHash).show();
+  old_min
+  .transfer( {
+    to: $("#"+thisEditorWithoutHash),
+    duration: 200
+  } )
+  .remove(); ///
 };
 
 var initialise_dragondrop = function(parent_id, the_options) {
