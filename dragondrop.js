@@ -51,6 +51,10 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
   popupBoxDiv.classList.add("annoPopup"); /////"dragonpop"
+
+  ///////if only child then offset
+  ////if second child then offset
+  //////clearfixes
   popupBoxDiv.classList.add("col-md-4");
 
   popupBoxDiv.id = "-" + Math.random().toString().substring(2);
@@ -85,9 +89,15 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
     snapMode: "outer"  
   });
 
+  ////set max height or clearfixes??
+
   $(popupIDstring).resizable({
     handles: {"e": ".dragondrop-resize-e", "w": ".dragondrop-resize-w" },
-    ghost: true
+    ghost: true,
+    stop: function(event, ui) {
+      var h = ui.element.find("dragondropbox").css("height");
+      ui.element.find(".ui-resizable-handle").css("height", h);
+    }
   });
   $(popupIDstring).resizable( "enable" );
 
@@ -220,8 +230,6 @@ var nearestSiblings = function(popupCorners, nDOM, theNearestSiblings) {
   };
 };
 
-var isReverting = false;
-
 var updateIsReverting = function(theNearestSiblings, popupDOM) {
   if ((theNearestSiblings[0] != -1) && (theNearestSiblings[0] != popupDOM.prev())) {
     isReverting = ["insertAfter", theNearestSiblings[0]];
@@ -272,12 +280,12 @@ var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
     to: new_min,
     duration: 200
   } )
-  .hide();
+  .hide("scale");
 };
 
 var dragondrop_reopen_min = function (thisEditorWithoutHash) {
   var old_min = $(".dragondrop-min-bar").find("."+thisEditorWithoutHash).closest(".dragondrop-min-pop");
-  $("#"+thisEditorWithoutHash).show();
+  $("#"+thisEditorWithoutHash).show("scale");
   old_min
   .transfer( {
     to: $("#"+thisEditorWithoutHash),

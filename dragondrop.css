@@ -15,6 +15,7 @@
 .annoPopup {
   	border: 1px solid grey;
 	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .dragondrop-handlebar {
@@ -30,4 +31,13 @@
 	width: 10px;
 	height: 100%;
 	background-color: buttonface;
+}
+
+.ui-effects-transfer {
+    border: 1px solid grey;
+ }
+
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
 }
