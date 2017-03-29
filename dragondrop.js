@@ -64,18 +64,16 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML }; ///reorder so the close and min are before
+  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML }; 
   if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].innerHTML += contentHTML };
 
   drag_drop_parent_id = parentID;
 
-  if (isUseless(minOption)) {
-    $(popupIDstring).find(".dragondrop-min").detach();
-  };
+  if (isUseless(minOption)) {  $(popupIDstring).find(".dragondrop-min").detach();  }
+  else { $(popupIDstring).find(".dragondrop-min").prependTo($(popupIDstring).find(".dragondrop-handlebar")); };
 
-  if (removeCloseOption) {
-    $(popupIDstring).find(".dragondrop-close").detach();
-  };
+  if (removeCloseOption) {  $(popupIDstring).find(".dragondrop-close").detach();  }
+  else { $(popupIDstring).find(".dragondrop-close").prependTo($(popupIDstring).find(".dragondrop-handlebar")); };
 
   $(popupIDstring).draggable();
   $(popupIDstring).draggable({
@@ -276,10 +274,6 @@ var dragondrop_minimise_pop = function (thisEditorWithoutHash) {
 
   new_min.addClass(thisEditorWithoutHash);
   $("#"+thisEditorWithoutHash)
-  .transfer( {
-    to: new_min,
-    duration: 200
-  } )
   .hide("scale");
 };
 
@@ -287,10 +281,6 @@ var dragondrop_reopen_min = function (thisEditorWithoutHash) {
   var old_min = $(".dragondrop-min-bar").find("."+thisEditorWithoutHash).closest(".dragondrop-min-pop");
   $("#"+thisEditorWithoutHash).show("scale");
   old_min
-  .transfer( {
-    to: $("#"+thisEditorWithoutHash),
-    duration: 200
-  } )
   .remove(); ///
 };
 
