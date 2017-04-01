@@ -5,6 +5,7 @@ var isUseless = function(something) {
   else {  return false;  };
 };
 
+var hasdragondrop_init = false;
 
 ///needs to be set
 var drag_drop_parent_id;
@@ -60,6 +61,15 @@ var dragondrop_current_col_width = function(className) {
 
 var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML, removeCloseOption) {
 
+  if (!hasdragondrop_init) {
+    $('#'+parent_id).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
+    $('.dragondrop-row').sortable({
+      handle: ".ui-draggable-handle",
+      connectWith: ".dragondrop-row"
+    });
+    hasdragondrop_init = true;
+  };
+
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
   popupBoxDiv.classList.add("annoPopup"); /////"dragonpop"
@@ -87,7 +97,10 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   pageBody.insertAfter(popupBoxDiv, pageBody.lastChild); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
-  if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML }; 
+  if (!isUseless(handlebarHTML)) { 
+    document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML;
+    $("#"+popupBoxDiv.id).find(".dragondrop-handlebar").children().addClass("dragondrop-handlebar-obj");
+  }; 
   if (!isUseless(contentHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].innerHTML += contentHTML };
 
   drag_drop_parent_id = parentID;
@@ -319,12 +332,6 @@ var dragondrop_reopen_min = function (thisEditorWithoutHash) {
 
 var initialise_dragondrop = function(parent_id, the_options) {
 
-  $('#'+parent_id).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
-  $('.dragondrop-row').sortable({
-    handle: ".ui-draggable-handle",
-    connectWith: ".dragondrop-row"
-  });
-
   $('#'+parent_id).on("click", ".dragondrop-close-pop-btn", function(){
     var thisPopID = $(event.target).closest(".annoPopup").attr("id");
     if (!isUseless(the_options.beforeclose)) {  the_options.beforeclose(thisPopID) };
@@ -393,6 +400,8 @@ var initialise_dragondrop = function(parent_id, the_options) {
     };
     
   };
+
+  hasdragondrop_init = true;
 
 };
 
