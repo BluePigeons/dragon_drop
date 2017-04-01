@@ -46,22 +46,45 @@ var dragondrop_popup_HTML = `
 
 `;
 
+var dragondrop_current_col_width = function(className) {
+  var arr = className.split(" ");
+  for (var i=0; i < arr.length; i++) {
+    if (arr[i].match (/(^|\s)col-md-\S+/g)) {
+      var n = arr[i];
+      var x = n.split("-md-")[1];
+      return Number(x);
+    };
+  };
+  return 0;
+};
+
 var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML, removeCloseOption) {
 
   var popupBoxDiv = document.createElement("div");
   popupBoxDiv.classList.add(popupClass);
   popupBoxDiv.classList.add("annoPopup"); /////"dragonpop"
 
-  ///////if only child then offset
-  ////if second child then offset
-  //////clearfixes
   popupBoxDiv.classList.add("col-md-4");
 
   popupBoxDiv.id = "-" + Math.random().toString().substring(2);
   var popupIDstring = "#" + popupBoxDiv.id;
 
-  var pageBody = document.getElementById(parentID);
-  pageBody.insertBefore(popupBoxDiv, pageBody.childNodes[0]); 
+  ///
+  var parentRow = document.getElementById(parentID.children[0].lastChild);
+  var parentRowWidth = 0;
+  for (var i=0; i < parentRow.length; i++) {
+    parentRowWidth += dragondrop_current_col_width(parentRow[i].classList);
+  };
+  if (parentRowWidth + 4 >= 12) {
+    var newRow = document.createElement("div");
+    newRow.classList.add("row");
+    newRow.classList.add("dragondrop-row");
+    newRow.classList.add("no-gutter");
+    document.getElementById(parentID.children[0]).insertAfter(newRow, document.getElementById(parentID.children[0]));
+  };
+
+  var pageBody = document.getElementById(parentID.children[0].lastChild); //id --> col --> rows
+  pageBody.insertAfter(popupBoxDiv, pageBody.lastChild); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
   if (!isUseless(handlebarHTML)) { document.getElementById(popupBoxDiv.id).children[1].children[0].children[0].innerHTML += handlebarHTML }; 
@@ -75,7 +98,18 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   if (removeCloseOption) {  $(popupIDstring).find(".dragondrop-close").detach();  }
   else { $(popupIDstring).find(".dragondrop-close").prependTo($(popupIDstring).find(".dragondrop-handlebar")); };
 
+
   $(popupIDstring).draggable();
+  $(popupIDstring).draggable({
+    addClasses: false,
+    handle: ".ui-draggable-handle"
+  });
+
+  $('.dragondrop-row').sortable({
+    handle: ".ui-draggable-handle",
+    connectWith: ".dragondrop-row"
+  });
+  /*
   $(popupIDstring).draggable({
     addClasses: false,
     handle: ".ui-draggable-handle",
@@ -86,7 +120,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
     snap: ".annoPopup",
     snapMode: "outer"  
   });
-
+*/
   ////set max height or clearfixes??
 
   $(popupIDstring).resizable({
@@ -104,7 +138,6 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
 
 var dragondrop_remove_pop = function(thispop) {
 
-//  var theParent = document.getElementById(drag_drop_parent_id);
   var toRemove = document.getElementById(thispop);
   var theParent = document.getElementById(toRemove.parentElement.id);
   theParent.removeChild(toRemove);
@@ -285,6 +318,12 @@ var dragondrop_reopen_min = function (thisEditorWithoutHash) {
 };
 
 var initialise_dragondrop = function(parent_id, the_options) {
+
+  $('#'+parent_id).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
+  $('.dragondrop-row').sortable({
+    handle: ".ui-draggable-handle",
+    connectWith: ".dragondrop-row"
+  });
 
   $('#'+parent_id).on("click", ".dragondrop-close-pop-btn", function(){
     var thisPopID = $(event.target).closest(".annoPopup").attr("id");
