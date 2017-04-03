@@ -90,11 +90,11 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
     newRow.classList.add("row");
     newRow.classList.add("dragondrop-row");
     newRow.classList.add("no-gutter");
-    $("#"+parentID).children().first().insertAfter(newRow, $("#"+parentID).children().first());
+    document.getElementById(parentID).children[0].insertBefore(newRow, document.getElementById(parentID).children[0].children[0]);
   };
 
-  var pageBody = document.getElementById(parentID).children[0]; //id --> col --> rows
-  $(pageBody).insertAfter(popupBoxDiv, $(pageBody.lastChild)); 
+  var pageBody = document.getElementById(parentID).children[0].lastChild; //id --> col --> rows
+  pageBody.insertBefore(popupBoxDiv); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
   if (!isUseless(handlebarHTML)) { 
