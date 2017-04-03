@@ -62,7 +62,7 @@ var dragondrop_current_col_width = function(className) {
 var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML, removeCloseOption) {
 
   if (!hasdragondrop_init) {
-    $('#'+parent_id).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
+    $('#'+parentID).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
     $('.dragondrop-row').sortable({
       handle: ".ui-draggable-handle",
       connectWith: ".dragondrop-row"
