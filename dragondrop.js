@@ -80,7 +80,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   var popupIDstring = "#" + popupBoxDiv.id;
 
   ///
-  var parentRow = document.getElementById(parentID.children[0].lastChild);
+  var parentRow = document.getElementById(parentID).children[0].lastChild;
   var parentRowWidth = 0;
   for (var i=0; i < parentRow.length; i++) {
     parentRowWidth += dragondrop_current_col_width(parentRow[i].classList);
@@ -90,10 +90,10 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
     newRow.classList.add("row");
     newRow.classList.add("dragondrop-row");
     newRow.classList.add("no-gutter");
-    document.getElementById(parentID.children[0]).insertAfter(newRow, document.getElementById(parentID.children[0]));
+    document.getElementById(parentID).children[0].insertAfter(newRow, document.getElementById(parentID).children[0]);
   };
 
-  var pageBody = document.getElementById(parentID.children[0].lastChild); //id --> col --> rows
+  var pageBody = document.getElementById(parentID).children[0].lastChild; //id --> col --> rows
   pageBody.insertAfter(popupBoxDiv, pageBody.lastChild); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
