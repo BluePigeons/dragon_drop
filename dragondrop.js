@@ -62,7 +62,7 @@ var dragondrop_current_col_width = function(className) {
 var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, handlebarHTML, removeCloseOption) {
 
   if (!hasdragondrop_init) {
-    $('#'+parentID).addClass("no-gutter").html("<div class='col-md-12 no-gutter'><div class='row dragondrop-row no-gutter'></div></div>");
+    $('#'+parentID).html("<div class='col-md-12'><div class='row dragondrop-row'></div></div>");
     $('.dragondrop-row').sortable({
       handle: ".ui-draggable-handle",
       connectWith: ".dragondrop-row"
@@ -85,12 +85,13 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   for (var i=0; i < parentRow.length; i++) {
     parentRowWidth += dragondrop_current_col_width(parentRow[i].classList);
   };
+  alert("the total final row width is now "+parentRowWidth);
   if (parentRowWidth + 4 >= 12) {
     var newRow = document.createElement("div");
     newRow.classList.add("row");
     newRow.classList.add("dragondrop-row");
     newRow.classList.add("no-gutter");
-    document.getElementById(parentID).children[0].insertBefore(newRow, document.getElementById(parentID).children[0].children[0]);
+    document.getElementById(parentID).children[0].insertBefore(newRow);
   };
 
   var pageBody = document.getElementById(parentID).children[0].lastChild; //id --> col --> rows
