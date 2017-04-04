@@ -48,10 +48,9 @@ var dragondrop_popup_HTML = `
 `;
 
 var dragondrop_current_col_width = function(className) {
-  var arr = className.split(" ");
-  for (var i=0; i < arr.length; i++) {
-    if (arr[i].match (/(^|\s)col-md-\S+/g)) {
-      var n = arr[i];
+  for (var i=0; i < className.length; i++) {
+    if (className.item(i).match(/(^|\s)col-md-\S+/g)) {
+      var n = className.item(i);
       var x = n.split("-md-")[1];
       return Number(x);
     };
@@ -82,15 +81,14 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   ///
   var parentRow = document.getElementById(parentID).children[0].lastChild;
   var parentRowWidth = 0;
-  for (var i=0; i < parentRow.length; i++) {
-    parentRowWidth += dragondrop_current_col_width(parentRow[i].classList);
+  for (var i=0; i < parentRow.childNodes.length; i++) {
+    var d = dragondrop_current_col_width(parentRow.childNodes[i].classList);
+    parentRowWidth += d;
   };
-  alert("the total final row width is now "+parentRowWidth);
-  if (parentRowWidth + 4 >= 12) {
+  if (parentRowWidth + 4 > 12) {
     var newRow = document.createElement("div");
     newRow.classList.add("row");
     newRow.classList.add("dragondrop-row");
-    newRow.classList.add("no-gutter");
     document.getElementById(parentID).children[0].insertBefore(newRow);
   };
 
@@ -153,8 +151,11 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
 var dragondrop_remove_pop = function(thispop) {
 
   var toRemove = document.getElementById(thispop);
-  var theParent = document.getElementById(toRemove.parentElement.id);
+  var theParent = toRemove.parentElement;
   theParent.removeChild(toRemove);
+  if (theParent.childNodes.length == 0) {
+    theParent.parentElement.removeChild(theParent);
+  };
   if (  isUseless(toRemove) != true ) {  return thispop;  };
 };
 
