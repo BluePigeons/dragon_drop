@@ -93,7 +93,7 @@ var add_dragondrop_pop = function(popupClass, contentHTML, parentID, minOption, 
   };
 
   var pageBody = document.getElementById(parentID).children[0].lastChild; //id --> col --> rows
-  pageBody.insertBefore(popupBoxDiv); 
+  pageBody.insertBefore(popupBoxDiv, null); 
 
   document.getElementById(popupBoxDiv.id).innerHTML = dragondrop_popup_HTML;
   if (!isUseless(handlebarHTML)) { 
